@@ -1,608 +1,1176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Divaa</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,600;1,600&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --pink: #ffd1dc;
-      --lavender: #e6e6fa;
-      --blue: #b0e0e6;
-      --cream: #fffdd0;
-      --text-dark: #5a4b52;
-    }
-    body, html {
-      margin: 0; padding: 0;
-      width: 100%; height: 100%;
-      overflow: hidden;
-      font-family: 'Quicksand', sans-serif;
-      background-color: var(--cream);
-      color: var(--text-dark);
-    }
-    * {
-      box-sizing: border-box;
-    }
-    
-    /* Global Section Settings */
-    .section {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
-      z-index: 10;
-    }
-    
-    .hidden-out { transform: scale(1.05); opacity: 0; pointer-events: none; }
-    .hidden-in { transform: scale(0.95); opacity: 0; pointer-events: none; }
-
-    /* Cursor Sparkle */
-    #cursor-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    /* Music Control */
-    #music-control {
-      position: fixed;
-      top: 20px; right: 20px;
-      z-index: 100;
-      width: 44px; height: 44px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 50%;
-      display: flex; justify-content: center; align-items: center;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-    }
-    #music-control:hover { transform: scale(1.1); }
-    .music-icon { width: 20px; height: 20px; fill: var(--text-dark); }
-
-    /* SECTION 1 */
-    #sec1 {
-      background: linear-gradient(135deg, var(--pink), var(--lavender));
-    }
-    .title-large {
-      font-family: 'Dancing Script', cursive;
-      font-size: 5rem;
-      margin-bottom: 2rem;
-      text-align: center;
-      opacity: 0;
-      transform: scale(0.8);
-      animation: popIn 2s ease-out forwards 0.5s;
-    }
-    @keyframes popIn { 100% { opacity: 1; transform: scale(1); } }
-    
-    .reveal-btn-wrapper {
-      position: relative;
-      animation: fadeIn 2s ease-out forwards 1.5s;
-      opacity: 0;
-    }
-    @keyframes fadeIn { to { opacity: 1; } }
-    
-    #reveal-btn {
-      background: rgba(255, 255, 255, 0.3);
-      border: 2px solid rgba(255, 255, 255, 0.6);
-      border-radius: 30px;
-      padding: 15px 40px;
-      font-size: 2rem;
-      font-family: 'Playfair Display', serif;
-      color: var(--text-dark);
-      cursor: pointer;
-      backdrop-filter: blur(5px);
-      transition: all 0.5s;
-      position: relative;
-      overflow: hidden;
-      min-width: 220px;
-      min-height: 80px;
-      display: flex; justify-content: center; align-items: center;
-    }
-    #reveal-btn:hover { background: rgba(255, 255, 255, 0.5); transform: translateY(-2px); }
-    
-    .blur-text { filter: blur(12px); transition: filter 1.5s ease; line-height: 1; }
-    .blur-text.revealed { filter: blur(0px); color: #df4b7d; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
-    
-    .sparkle {
-      position: absolute; width: 10px; height: 10px;
-      background: white; border-radius: 50%;
-      pointer-events: none; opacity: 0; box-shadow: 0 0 10px #fff;
-    }
-    @keyframes sparkleAnim {
-      0% { transform: scale(0) translate(0, 0); opacity: 1; }
-      100% { transform: scale(1.5) translate(var(--tx), var(--ty)); opacity: 0; }
-    }
-
-    /* SECTION 2 */
-    #sec2 {
-      background: linear-gradient(to bottom, var(--blue), var(--cream));
-      overflow: hidden;
-    }
-    
-    .icon-track {
-      position: absolute;
-      width: 70px; top: 0;
-      display: flex; flex-direction: column;
-      opacity: 0.4; /* Slightly increased visibility */
-    }
-    .icon-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 15vh; }
-    
-    /* Ganti gambar di bawah ini dengan .jpg milik Anda. Image dibuat bulat seperti icon. */
-    .game-icon {
-      width: 60px; height: 60px; border-radius: 12px;
-      object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-    
-    .track-up { animation: floatUp 20s linear infinite; }
-    .track-down { animation: floatDown 20s linear infinite; }
-    
-    @keyframes floatUp { from { transform: translateY(0); } to { transform: translateY(-50%); } }
-    @keyframes floatDown { from { transform: translateY(-50%); } to { transform: translateY(0); } }
-
-    .letter-card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-      width: 90%; max-width: 650px; /* Diperbesar */
-      height: 60vh; min-height: 400px;
-      display: flex; flex-direction: column;
-      position: relative; z-index: 10; text-align: center;
-    }
-    .letter-title {
-      font-family: 'Dancing Script', cursive;
-      font-size: 3rem; margin-top: 0; margin-bottom: 20px;
-      color: #df4b7d; flex-shrink: 0;
-    }
-    .letter-content-wrapper {
-      flex-grow: 1; overflow-y: auto; text-align: left;
-      margin-bottom: 20px; padding-right: 10px;
-    }
-    .letter-content-wrapper::-webkit-scrollbar { width: 6px; }
-    .letter-content-wrapper::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
-    
-    .letter-text { font-size: 1.25rem; line-height: 1.8; white-space: pre-wrap; }
-    
-    .button-wrapper { flex-shrink: 0; }
-    #to-sec3-btn {
-      background: none; border: 1px solid var(--text-dark);
-      padding: 10px 30px; border-radius: 20px;
-      font-family: 'Quicksand', sans-serif; font-size: 1.1rem;
-      cursor: pointer; opacity: 0; transition: all 0.3s;
-    }
-    #to-sec3-btn:hover { background: var(--text-dark); color: white; }
-    #to-sec3-btn.show { opacity: 1; animation: fadeIn 1s ease forwards; }
-
-    /* SECTION 3 */
-    #sec3 {
-      background: radial-gradient(circle at center, #351431, #16162a, #070712);
-      overflow: hidden;
-    }
-    
-    canvas#particle-canvas {
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 100%; z-index: 1; pointer-events: none;
-    }
-
-    .final-message {
-      position: absolute; z-index: 10;
-      bottom: 8%; width: 100%;
-      font-family: 'Dancing Script', cursive; font-size: 4.5rem;
-      color: #ffd1dc; text-shadow: 0 0 20px #df4b7d, 0 0 40px #df4b7d;
-      opacity: 0; transform: translateY(20px); transition: all 2s ease-out;
-      text-align: center; pointer-events: none;
-    }
-    .final-message.show { opacity: 1; transform: translateY(0); pointer-events: auto; cursor: pointer; }
-
-    @media (max-width: 600px) {
-      .title-large { font-size: 3.5rem; }
-      #reveal-btn { font-size: 1.5rem; min-width: 160px; min-height: 60px; }
-      .letter-card { padding: 25px; height: 65vh; }
-      .letter-title { font-size: 2.2rem; }
-      .letter-text { font-size: 1.1rem; }
-      .final-message { font-size: 3rem; }
-      .final-subtext { font-size: 1.2rem; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Cursor Sparkle -->
-  <canvas id="cursor-canvas"></canvas>
-
-  <!-- Audio Controls -->
-  <div id="music-control" onclick="toggleMusic()">
-    <svg id="music-icon" class="music-icon" viewBox="0 0 24 24">
-      <path id="music-path" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-    </svg>
-  </div>
-
-  <!-- SECTION 1 -->
-  <section id="sec1" class="section">
-    <h1 class="title-large">Happy Birthday</h1>
-    <div class="reveal-btn-wrapper">
-      <button id="reveal-btn">
-        <span class="blur-text" id="reveal-text">Divaa</span>
-      </button>
-    </div>
-  </section>
-
-  <!-- SECTION 2 -->
-  <section id="sec2" class="section hidden-in">
-    
-    <!-- Animasi Background Icons (Gambar .jpg bisa diubah src nya) -->
-    <div class="icon-track track-up" style="left: 4%;">
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=1" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=2" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=3" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=4" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=5" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=1" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=2" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=3" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=4" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=5" alt="icon" class="game-icon"></div>
-    </div>
-    <div class="icon-track track-down" style="left: 20%;">
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=6" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=7" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=8" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=9" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=10" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=6" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=7" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=8" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=9" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=10" alt="icon" class="game-icon"></div>
-    </div>
-    <div class="icon-track track-up" style="left: 38%;">
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=11" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=12" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=13" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=14" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=15" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=11" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=12" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=13" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=14" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=15" alt="icon" class="game-icon"></div>
-    </div>
-    <div class="icon-track track-down" style="right: 38%;">
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=16" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=17" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=18" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=19" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=20" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=16" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=17" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=18" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=19" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=20" alt="icon" class="game-icon"></div>
-    </div>
-    <div class="icon-track track-up" style="right: 20%;">
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=21" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=22" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=23" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=24" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=25" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=21" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=22" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=23" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=24" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=25" alt="icon" class="game-icon"></div>
-    </div>
-    <div class="icon-track track-down" style="right: 4%;">
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=26" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=27" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=28" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=29" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=30" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=26" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=27" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=28" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=29" alt="icon" class="game-icon"></div>
-      <div class="icon-wrapper"><img src="https://picsum.photos/60/60?random=30" alt="icon" class="game-icon"></div>
-    </div>
-
-    <!-- Center Card -->
-    <div class="letter-card">
-      <h2 class="letter-title">For You</h2>
-      <div class="letter-content-wrapper">
-        <div class="letter-text" id="letter-text"></div>
-      </div>
-      <div class="button-wrapper">
-        <button id="to-sec3-btn">Continue</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 3 -->
-  <section id="sec3" class="section hidden-in">
-    <canvas id="particle-canvas"></canvas>
-    <div class="final-message" id="final-msg" onclick="openWA()">
-      For Divaa 💖
-    </div>
-  </section>
-
-  <script>
-    // Audio Context state
-    let audioCtx; let masterGain; let isPlaying = false; let musicStarted = false;
-
-    // UI Elements
-    const sec1 = document.getElementById('sec1');
-    const sec2 = document.getElementById('sec2');
-    const sec3 = document.getElementById('sec3');
-    const revealBtn = document.getElementById('reveal-btn');
-    const revealText = document.getElementById('reveal-text');
-    const toSec3Btn = document.getElementById('to-sec3-btn');
-    const letterEl = document.getElementById('letter-text');
-    const musicPath = document.getElementById('music-path');
-
-    revealBtn.addEventListener('click', (e) => {
-      if (!musicStarted) { initMusic(); musicStarted = true; }
-      revealText.classList.add('revealed');
-      
-      const btnRect = revealBtn.getBoundingClientRect();
-      for(let i=0; i<12; i++) {
-        let s = document.createElement('div');
-        s.className = 'sparkle';
-        let angle = Math.random() * Math.PI * 2;
-        let dist = 30 + Math.random() * 50;
-        s.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
-        s.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
-        s.style.left = '50%'; s.style.top = '50%';
-        s.style.animation = `sparkleAnim 0.8s ease-out forwards`;
-        revealBtn.appendChild(s);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Divaa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,600;1,600&family=Quicksand:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --pink: #ffd1dc;
+        --lavender: #e6e6fa;
+        --blue: #b0e0e6;
+        --cream: #fffdd0;
+        --text-dark: #5a4b52;
       }
-      
-      setTimeout(() => {
-        sec1.classList.add('hidden-out');
-        sec2.classList.remove('hidden-in');
-        setTimeout(startTyping, 1200);
-      }, 1500);
-    });
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Quicksand", sans-serif;
+        background-color: var(--cream);
+        color: var(--text-dark);
+      }
+      * {
+        box-sizing: border-box;
+      }
 
-    toSec3Btn.addEventListener('click', () => {
-      sec2.classList.add('hidden-out');
-      sec3.classList.remove('hidden-in');
-      setTimeout(startParticleBloom, 1000);
-    });
+      /* Global Section Settings */
+      .section {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition:
+          opacity 1.5s ease-in-out,
+          transform 1.5s ease-in-out;
+        z-index: 10;
+      }
 
-    const letterContent = "Dear Divaa,\n\nHappy Birthday! 🎉\nI wanted to make something special just for you. You bring so much light and joy to everyone around you.\n\nKeep shining, whether you're building worlds in Minecraft, clutching in Valorant, or simply being your amazing self. You deserve all the love and happiness today and always.\n\nWishing you a magical and unforgettable year ahead! 💕";
-    let charIndex = 0;
-    
-    function startTyping() {
-      if (charIndex < letterContent.length) {
-        let char = letterContent.charAt(charIndex);
-        if(char === '\n') {
-          letterEl.appendChild(document.createElement('br'));
-        } else {
-          letterEl.appendChild(document.createTextNode(char));
+      .hidden-out {
+        transform: scale(1.05);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .hidden-in {
+        transform: scale(0.95);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* Cursor Sparkle */
+      #cursor-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      /* Music Control */
+      #music-control {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 100;
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+      #music-control:hover {
+        transform: scale(1.1);
+      }
+      .music-icon {
+        width: 20px;
+        height: 20px;
+        fill: var(--text-dark);
+      }
+
+      /* SECTION 1 */
+      #sec1 {
+        background: linear-gradient(135deg, var(--pink), var(--lavender));
+      }
+      .title-large {
+        font-family: "Dancing Script", cursive;
+        font-size: 5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        opacity: 0;
+        transform: scale(0.8);
+        animation: popIn 2s ease-out forwards 0.5s;
+      }
+      @keyframes popIn {
+        100% {
+          opacity: 1;
+          transform: scale(1);
         }
-        charIndex++;
-        
-        const wrapper = document.querySelector('.letter-content-wrapper');
-        wrapper.scrollTop = wrapper.scrollHeight;
-        
-        let delay = 35; 
-        if(char === ',' || char === '.' || char === '!') delay = 300;
-        if(char === '\n') delay = 400;
-        
-        setTimeout(startTyping, delay);
-      } else {
-        toSec3Btn.classList.add('show');
       }
-    }
 
-    function startParticleBloom() {
-      const canvas = document.getElementById('particle-canvas');
-      const ctx = canvas.getContext('2d');
-      let w = canvas.width = window.innerWidth;
-      let h = canvas.height = window.innerHeight;
+      .reveal-btn-wrapper {
+        position: relative;
+        animation: fadeIn 2s ease-out forwards 1.5s;
+        opacity: 0;
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
 
-      window.addEventListener('resize', () => {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
+      #reveal-btn {
+        background: rgba(255, 255, 255, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        border-radius: 30px;
+        padding: 15px 40px;
+        font-size: 2rem;
+        font-family: "Playfair Display", serif;
+        color: var(--text-dark);
+        cursor: pointer;
+        backdrop-filter: blur(5px);
+        transition: all 0.5s;
+        position: relative;
+        overflow: hidden;
+        min-width: 220px;
+        min-height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #reveal-btn:hover {
+        background: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .blur-text {
+        filter: blur(12px);
+        transition: filter 1.5s ease;
+        line-height: 1;
+      }
+      .blur-text.revealed {
+        filter: blur(0px);
+        color: #df4b7d;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      }
+
+      .sparkle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: white;
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0;
+        box-shadow: 0 0 10px #fff;
+      }
+      @keyframes sparkleAnim {
+        0% {
+          transform: scale(0) translate(0, 0);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1.5) translate(var(--tx), var(--ty));
+          opacity: 0;
+        }
+      }
+
+      /* SECTION 2 */
+      #sec2 {
+        background: linear-gradient(to bottom, var(--blue), var(--cream));
+        overflow: hidden;
+      }
+
+      .icon-track {
+        position: absolute;
+        width: 70px;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        opacity: 0.4; /* Slightly increased visibility */
+      }
+      .icon-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15vh;
+      }
+
+      /* Ganti gambar di bawah ini dengan .jpg milik Anda. Image dibuat bulat seperti icon. */
+      .game-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .track-up {
+        animation: floatUp 20s linear infinite;
+      }
+      .track-down {
+        animation: floatDown 20s linear infinite;
+      }
+
+      @keyframes floatUp {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-50%);
+        }
+      }
+      @keyframes floatDown {
+        from {
+          transform: translateY(-50%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      .letter-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 650px; /* Diperbesar */
+        height: 60vh;
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        z-index: 10;
+        text-align: center;
+      }
+      .letter-title {
+        font-family: "Dancing Script", cursive;
+        font-size: 3rem;
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: #df4b7d;
+        flex-shrink: 0;
+      }
+      .letter-content-wrapper {
+        flex-grow: 1;
+        overflow-y: auto;
+        text-align: left;
+        margin-bottom: 20px;
+        padding-right: 10px;
+      }
+      .letter-content-wrapper::-webkit-scrollbar {
+        width: 6px;
+      }
+      .letter-content-wrapper::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+      }
+
+      .letter-text {
+        font-size: 1.25rem;
+        line-height: 1.8;
+        white-space: pre-wrap;
+      }
+
+      .button-wrapper {
+        flex-shrink: 0;
+      }
+      #to-sec3-btn {
+        background: none;
+        border: 1px solid var(--text-dark);
+        padding: 10px 30px;
+        border-radius: 20px;
+        font-family: "Quicksand", sans-serif;
+        font-size: 1.1rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.3s;
+      }
+      #to-sec3-btn:hover {
+        background: var(--text-dark);
+        color: white;
+      }
+      #to-sec3-btn.show {
+        opacity: 1;
+        animation: fadeIn 1s ease forwards;
+      }
+
+      /* SECTION 3 */
+      #sec3 {
+        background: radial-gradient(
+          circle at center,
+          #351431,
+          #16162a,
+          #070712
+        );
+        overflow: hidden;
+      }
+
+      canvas#particle-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .final-message {
+        position: absolute;
+        z-index: 10;
+        bottom: 8%;
+        width: 100%;
+        font-family: "Dancing Script", cursive;
+        font-size: 4.5rem;
+        color: #ffd1dc;
+        text-shadow:
+          0 0 20px #df4b7d,
+          0 0 40px #df4b7d;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 2s ease-out;
+        text-align: center;
+        pointer-events: none;
+      }
+      .final-message.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        cursor: pointer;
+      }
+
+      @media (max-width: 600px) {
+        .title-large {
+          font-size: 3.5rem;
+        }
+        #reveal-btn {
+          font-size: 1.5rem;
+          min-width: 160px;
+          min-height: 60px;
+        }
+        .letter-card {
+          padding: 25px;
+          height: 65vh;
+        }
+        .letter-title {
+          font-size: 2.2rem;
+        }
+        .letter-text {
+          font-size: 1.1rem;
+        }
+        .final-message {
+          font-size: 3rem;
+        }
+        .final-subtext {
+          font-size: 1.2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <audio id="bg-music" loop>
+      <source src="assets/bg.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Cursor Sparkle -->
+    <canvas id="cursor-canvas"></canvas>
+
+    <!-- Audio Controls -->
+    <div id="music-control" onclick="toggleMusic()">
+      <svg id="music-icon" class="music-icon" viewBox="0 0 24 24">
+        <path
+          id="music-path"
+          d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
+        />
+      </svg>
+    </div>
+
+    <!-- SECTION 1 -->
+    <section id="sec1" class="section">
+      <h1 class="title-large">Happy Birthday!🎉</h1>
+      <div class="reveal-btn-wrapper">
+        <button id="reveal-btn">
+          <span class="blur-text" id="reveal-text">Divaaa~</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section id="sec2" class="section hidden-in">
+      <!-- Animasi Background Icons (Gambar .jpg bisa diubah src nya) -->
+      <div class="icon-track track-up" style="left: 4%">
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=1"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=2"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=3"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=4"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=5"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=1"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=2"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=3"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=4"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=5"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+      </div>
+      <div class="icon-track track-down" style="left: 20%">
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=6"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=7"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=8"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=9"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=10"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=6"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=7"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=8"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=9"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=10"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+      </div>
+      <div class="icon-track track-up" style="left: 38%">
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=11"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=12"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=13"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=14"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=15"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=11"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=12"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=13"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=14"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=15"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+      </div>
+      <div class="icon-track track-down" style="right: 38%">
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=16"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=17"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=18"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=19"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=20"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=16"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=17"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=18"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=19"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=20"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+      </div>
+      <div class="icon-track track-up" style="right: 20%">
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=21"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=22"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=23"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=24"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=25"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=21"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=22"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=23"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=24"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=25"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+      </div>
+      <div class="icon-track track-down" style="right: 4%">
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=26"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=27"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=28"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=29"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=30"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=26"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=27"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=28"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=29"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <img
+            src="https://picsum.photos/60/60?random=30"
+            alt="icon"
+            class="game-icon"
+          />
+        </div>
+      </div>
+
+      <!-- Center Card -->
+      <div class="letter-card">
+        <h2 class="letter-title">for Divaa</h2>
+        <div class="letter-content-wrapper">
+          <div class="letter-text" id="letter-text"></div>
+        </div>
+        <div class="button-wrapper">
+          <button id="to-sec3-btn">Continue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section id="sec3" class="section hidden-in">
+      <canvas id="particle-canvas"></canvas>
+      <div class="final-message" id="final-msg" onclick="openWA()">
+        Once again happy birtday Divaa ✨
+      </div>
+    </section>
+
+    <script>
+      // Audio Context state
+      let audioCtx;
+      let masterGain;
+      let isPlaying = false;
+      let musicStarted = false;
+
+      // UI Elements
+      const sec1 = document.getElementById("sec1");
+      const sec2 = document.getElementById("sec2");
+      const sec3 = document.getElementById("sec3");
+      const revealBtn = document.getElementById("reveal-btn");
+      const revealText = document.getElementById("reveal-text");
+      const toSec3Btn = document.getElementById("to-sec3-btn");
+      const letterEl = document.getElementById("letter-text");
+      const musicPath = document.getElementById("music-path");
+
+      revealBtn.addEventListener("click", (e) => {
+        if (!musicStarted) {
+          initMusic();
+          musicStarted = true;
+        }
+        revealText.classList.add("revealed");
+
+        const btnRect = revealBtn.getBoundingClientRect();
+        for (let i = 0; i < 12; i++) {
+          let s = document.createElement("div");
+          s.className = "sparkle";
+          let angle = Math.random() * Math.PI * 2;
+          let dist = 30 + Math.random() * 50;
+          s.style.setProperty("--tx", Math.cos(angle) * dist + "px");
+          s.style.setProperty("--ty", Math.sin(angle) * dist + "px");
+          s.style.left = "50%";
+          s.style.top = "50%";
+          s.style.animation = `sparkleAnim 0.8s ease-out forwards`;
+          revealBtn.appendChild(s);
+        }
+
+        setTimeout(() => {
+          sec1.classList.add("hidden-out");
+          sec2.classList.remove("hidden-in");
+          setTimeout(startTyping, 1200);
+        }, 1500);
       });
 
-      let particles = [];
-      const numParticles = window.innerWidth < 600 ? 500 : 1200; // Partikel lebih banyak
-      let gatherMode = false;
+      toSec3Btn.addEventListener("click", () => {
+        sec2.classList.add("hidden-out");
+        sec3.classList.remove("hidden-in");
+        setTimeout(startParticleBloom, 1000);
+      });
 
-      for (let i = 0; i < numParticles; i++) {
-        particles.push({
-          x: Math.random() * w, y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5,
-          radius: Math.random() * 2 + 1,
-          color: Math.random() > 0.5 ? '#fff' : '#ffd1dc',
-          alpha: Math.random() * 0.5 + 0.5
-        });
+      const letterContent =
+        "Happy Birthday yaa 🎉\n\n Hari inii bukan cuma soal nambah umurrr,\n tapi soal semua hal yang sudah divaa lewatinn sampai di titik inii.\n Dan jujur aja, itu bukan hal kecil.\n\n Semoga di tahun iniii,\n hal-hal yang divaa usahakan pelan-pelan mulai balik ke divaa yaa,\n dalam bentuk kebahagiaan, ketenangan,\n dan hal-hal kecil yang bikin divaa senyum tanpa alasan.\n Tetap jadi divaa yang sekarangg —\n yang punya cara unik buat nikmatin hal-hal yang divaa sukaa,\n yang kadang keliatan santai, tapi sebenarnya berartii.\n\n Entah itu lagi nyantai dunia di Minecraft atau Roblox,\n lagi fokus di Valorant atau Mobile Legends,\n ataupun lagi yapping di Discord dengan teman-teman divaa,\n atau cuma lagi jadi diri divaa sendiriii,\n semoga semuanyaa tetap terasa menyenangkann yaa.\n\n Dan semoga,\n di tengah semua hal yang divaa jalaninn,\n kamu selalu punya alasan untuk tetap bahagiaa,\n kalaupun gaada tinggal dibuat misalnya seperti makan eskrim atau jalan-jalann.\n\n Happy Birthday, Divaa\n Semoga hari ini dan seterusnya selalu baik ke kamuuu.";
+      let charIndex = 0;
+
+      function startTyping() {
+        if (charIndex < letterContent.length) {
+          let char = letterContent.charAt(charIndex);
+          if (char === "\n") {
+            letterEl.appendChild(document.createElement("br"));
+          } else {
+            letterEl.appendChild(document.createTextNode(char));
+          }
+          charIndex++;
+
+          const wrapper = document.querySelector(".letter-content-wrapper");
+          wrapper.scrollTop = wrapper.scrollHeight;
+
+          let delay = 35;
+          if (char === "," || char === "." || char === "!") delay = 300;
+          if (char === "\n") delay = 400;
+
+          setTimeout(startTyping, delay);
+        } else {
+          toSec3Btn.classList.add("show");
+        }
       }
 
-      let startTime = Date.now();
+      function startParticleBloom() {
+        const canvas = document.getElementById("particle-canvas");
+        const ctx = canvas.getContext("2d");
+        let w = (canvas.width = window.innerWidth);
+        let h = (canvas.height = window.innerHeight);
 
-      function animateParticles() {
-        ctx.clearRect(0, 0, w, h);
-        let passed = Date.now() - startTime;
-        
-        if (passed > 2500 && !gatherMode) { gatherMode = true; }
-        if (passed > 4000) {
-           document.getElementById('final-msg').classList.add('show');
+        window.addEventListener("resize", () => {
+          w = canvas.width = window.innerWidth;
+          h = canvas.height = window.innerHeight;
+        });
+
+        let particles = [];
+        const numParticles = window.innerWidth < 600 ? 500 : 1200; // Partikel lebih banyak
+        let gatherMode = false;
+
+        for (let i = 0; i < numParticles; i++) {
+          particles.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: (Math.random() - 0.5) * 1.5,
+            radius: Math.random() * 2 + 1,
+            color: Math.random() > 0.5 ? "#fff" : "#ffd1dc",
+            alpha: Math.random() * 0.5 + 0.5,
+          });
         }
 
-        let cx = w / 2;
-        let cy = h / 2 - 20;
+        let startTime = Date.now();
 
-        particles.forEach((p, i) => {
-          if (gatherMode) {
-             let t = (i / numParticles) * Math.PI * 2;
-             let sc = w < 600 ? 6 : 12;
-             
-             // Multiply by random sqrt for filling the heart uniformly, not just outline
-             let randFill = Math.sqrt(Math.random()); 
-             // Determine target position (Heart formula)
-             let targetX = cx + (16 * Math.pow(Math.sin(t), 3)) * sc * randFill;
-             let targetY = cy - (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * sc * randFill;
+        function animateParticles() {
+          ctx.clearRect(0, 0, w, h);
+          let passed = Date.now() - startTime;
 
-             let dx = targetX - p.x;
-             let dy = targetY - p.y;
-             
-             p.vx += dx * 0.005;
-             p.vy += dy * 0.005;
-             p.vx *= 0.92; p.vy *= 0.92;
+          if (passed > 2500 && !gatherMode) {
+            gatherMode = true;
+          }
+          if (passed > 4000) {
+            document.getElementById("final-msg").classList.add("show");
           }
 
+          let cx = w / 2;
+          let cy = h / 2 - 20;
+
+          particles.forEach((p, i) => {
+            if (gatherMode) {
+              let t = (i / numParticles) * Math.PI * 2;
+              let sc = w < 600 ? 6 : 12;
+
+              // Multiply by random sqrt for filling the heart uniformly, not just outline
+              let randFill = Math.sqrt(Math.random());
+              // Determine target position (Heart formula)
+              let targetX = cx + 16 * Math.pow(Math.sin(t), 3) * sc * randFill;
+              let targetY =
+                cy -
+                (13 * Math.cos(t) -
+                  5 * Math.cos(2 * t) -
+                  2 * Math.cos(3 * t) -
+                  Math.cos(4 * t)) *
+                  sc *
+                  randFill;
+
+              let dx = targetX - p.x;
+              let dy = targetY - p.y;
+
+              p.vx += dx * 0.005;
+              p.vy += dy * 0.005;
+              p.vx *= 0.92;
+              p.vy *= 0.92;
+            }
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (!gatherMode) {
+              if (p.x < 0) p.x = w;
+              if (p.x > w) p.x = 0;
+              if (p.y < 0) p.y = h;
+              if (p.y > h) p.y = 0;
+            }
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.alpha;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = p.color;
+            ctx.fill();
+          });
+
+          requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+      }
+
+      // WA Button Action
+      function openWA() {
+        if (!document.getElementById("final-msg").classList.contains("show"))
+          return;
+
+        // Ganti nomor HP di bawah dengan nomor WhatsApp yang dituju (gunakan kode negara, misalnya 62)
+        const phoneNumber = "6285656737883";
+        const text = encodeURIComponent("Haii Zii makasih yaa hadiahnyaa");
+        window.open(`https://wa.me/${phoneNumber}?text=${text}`, "_blank");
+      }
+
+      const bgMusic = document.getElementById("bg-music");
+      let isPlaying = false;
+      let musicStarted = false;
+
+      function initMusic() {
+        bgMusic.volume = 0.15;
+        bgMusic.play().catch(() => {
+          // autoplay biasanya diblok, jadi amanin aja
+        });
+        isPlaying = true;
+      }
+
+      function toggleMusic() {
+        if (!musicStarted) {
+          initMusic();
+          musicStarted = true;
+          updateMusicIcon(true);
+          return;
+        }
+
+        if (isPlaying) {
+          bgMusic.pause();
+          isPlaying = false;
+          updateMusicIcon(false);
+        } else {
+          bgMusic.play();
+          isPlaying = true;
+          updateMusicIcon(true);
+        }
+      }
+
+      function toggleMusic() {
+        if (!musicStarted) {
+          initMusic();
+          musicStarted = true;
+          updateMusicIcon(true);
+          return;
+        }
+        if (audioCtx.state === "suspended") audioCtx.resume();
+        if (isPlaying) {
+          masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
+          isPlaying = false;
+          updateMusicIcon(false);
+        } else {
+          masterGain.gain.linearRampToValueAtTime(
+            0.15,
+            audioCtx.currentTime + 1,
+          );
+          isPlaying = true;
+          updateMusicIcon(true);
+        }
+      }
+
+      function updateMusicIcon(on) {
+        if (on) {
+          musicPath.setAttribute(
+            "d",
+            "M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z",
+          );
+        } else {
+          musicPath.setAttribute(
+            "d",
+            "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z",
+          );
+        }
+      }
+
+      // Cursor Sparkle Effect
+      const cursorCanvas = document.getElementById("cursor-canvas");
+      const cCtx = cursorCanvas.getContext("2d");
+      let cw = (cursorCanvas.width = window.innerWidth);
+      let ch = (cursorCanvas.height = window.innerHeight);
+
+      window.addEventListener("resize", () => {
+        cw = cursorCanvas.width = window.innerWidth;
+        ch = cursorCanvas.height = window.innerHeight;
+      });
+
+      const cursorParticles = [];
+
+      window.addEventListener("mousemove", (e) => {
+        for (let i = 0; i < 3; i++) {
+          cursorParticles.push({
+            x: e.clientX,
+            y: e.clientY,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: (Math.random() - 0.5) * 1.5 + 0.5,
+            life: 1,
+            size: Math.random() * 2.5 + 1,
+            color: ["#ffd1dc", "#ffffff", "#e6e6fa"][
+              Math.floor(Math.random() * 3)
+            ],
+          });
+        }
+      });
+
+      function animateCursorSparkles() {
+        cCtx.clearRect(0, 0, cw, ch);
+
+        for (let i = cursorParticles.length - 1; i >= 0; i--) {
+          let p = cursorParticles[i];
           p.x += p.vx;
           p.y += p.vy;
+          p.vy += 0.02; // very light gravity
+          p.life -= 0.02; // fade speed
 
-          if (!gatherMode) {
-            if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
-            if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+          if (p.life <= 0) {
+            cursorParticles.splice(i, 1);
+            continue;
           }
 
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color; ctx.globalAlpha = p.alpha;
-          ctx.shadowBlur = 15; ctx.shadowColor = p.color;
-          ctx.fill();
-        });
-
-        requestAnimationFrame(animateParticles);
-      }
-      animateParticles();
-    }
-
-    // WA Button Action
-    function openWA() {
-      if (!document.getElementById('final-msg').classList.contains('show')) return;
-      
-      // Ganti nomor HP di bawah dengan nomor WhatsApp yang dituju (gunakan kode negara, misalnya 62)
-      const phoneNumber = "6281234567890"; 
-      const text = encodeURIComponent("Hi! Thank you for the cute birthday surprise! 💖");
-      window.open(`https://wa.me/${phoneNumber}?text=${text}`, '_blank');
-    }
-
-    function initMusic() {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      audioCtx = new AudioContext();
-      masterGain = audioCtx.createGain();
-      masterGain.connect(audioCtx.destination);
-      masterGain.gain.value = 0.15;
-      isPlaying = true;
-      const scale = [174.61, 196.00, 220.00, 261.63, 293.66, 349.23, 392.00, 440.00]; 
-      
-      let droneOsc = audioCtx.createOscillator();
-      let droneGain = audioCtx.createGain();
-      droneOsc.type = 'triangle'; droneOsc.frequency.value = 87.31; 
-      droneOsc.connect(droneGain); droneGain.connect(masterGain);
-      droneGain.gain.setValueAtTime(0, audioCtx.currentTime);
-      droneGain.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 4);
-      droneOsc.start();
-
-      function playRandomChime() {
-        if(!isPlaying) return;
-        let osc = audioCtx.createOscillator(); let oscGain = audioCtx.createGain();
-        osc.type = 'sine'; osc.frequency.value = scale[Math.floor(Math.random() * scale.length)];
-        osc.connect(oscGain); oscGain.connect(masterGain);
-        
-        let now = audioCtx.currentTime;
-        oscGain.gain.setValueAtTime(0, now);
-        oscGain.gain.linearRampToValueAtTime(0.1, now + 1.5);
-        oscGain.gain.exponentialRampToValueAtTime(0.001, now + 5);
-        osc.start(now); osc.stop(now + 5.1);
-        
-        setTimeout(playRandomChime, 1500 + Math.random() * 2000);
-      }
-      playRandomChime();
-    }
-
-    function toggleMusic() {
-      if (!musicStarted) { initMusic(); musicStarted = true; updateMusicIcon(true); return; }
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      if (isPlaying) {
-        masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
-        isPlaying = false; updateMusicIcon(false);
-      } else {
-        masterGain.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 1);
-        isPlaying = true; updateMusicIcon(true);
-      }
-    }
-    
-    function updateMusicIcon(on) {
-      if(on) {
-         musicPath.setAttribute('d', "M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z");
-      } else {
-         musicPath.setAttribute('d', "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z");
-      }
-    }
-
-    // Cursor Sparkle Effect
-    const cursorCanvas = document.getElementById('cursor-canvas');
-    const cCtx = cursorCanvas.getContext('2d');
-    let cw = cursorCanvas.width = window.innerWidth;
-    let ch = cursorCanvas.height = window.innerHeight;
-    
-    window.addEventListener('resize', () => {
-      cw = cursorCanvas.width = window.innerWidth;
-      ch = cursorCanvas.height = window.innerHeight;
-    });
-
-    const cursorParticles = [];
-    
-    window.addEventListener('mousemove', (e) => {
-       for(let i=0; i<3; i++) {
-         cursorParticles.push({
-           x: e.clientX,
-           y: e.clientY,
-           vx: (Math.random() - 0.5) * 1.5,
-           vy: (Math.random() - 0.5) * 1.5 + 0.5,
-           life: 1,
-           size: Math.random() * 2.5 + 1,
-           color: ['#ffd1dc', '#ffffff', '#e6e6fa'][Math.floor(Math.random()*3)]
-         });
-       }
-    });
-
-    function animateCursorSparkles() {
-      cCtx.clearRect(0, 0, cw, ch);
-      
-      for(let i = cursorParticles.length - 1; i >= 0; i--) {
-        let p = cursorParticles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.02; // very light gravity
-        p.life -= 0.02; // fade speed
-        
-        if (p.life <= 0) {
-          cursorParticles.splice(i, 1);
-          continue;
+          cCtx.beginPath();
+          cCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          cCtx.fillStyle = p.color;
+          cCtx.globalAlpha = p.life;
+          cCtx.shadowBlur = 8;
+          cCtx.shadowColor = p.color;
+          cCtx.fill();
+          cCtx.globalAlpha = 1;
         }
-        
-        cCtx.beginPath();
-        cCtx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-        cCtx.fillStyle = p.color;
-        cCtx.globalAlpha = p.life;
-        cCtx.shadowBlur = 8;
-        cCtx.shadowColor = p.color;
-        cCtx.fill();
-        cCtx.globalAlpha = 1;
+        requestAnimationFrame(animateCursorSparkles);
       }
-      requestAnimationFrame(animateCursorSparkles);
-    }
-    animateCursorSparkles();
-  </script>
-</body>
+      animateCursorSparkles();
+    </script>
+  </body>
 </html>
