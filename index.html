@@ -353,35 +353,43 @@
       }
 
       @media (max-width: 600px) {
-        .title-large {
-          font-size: 3.5rem;
+        .icon-track {
+          width: 50px; /* lebih kecil */
+          opacity: 0.25; /* lebih subtle biar ga ganggu */
         }
-        #reveal-btn {
-          font-size: 1.5rem;
-          min-width: 160px;
-          min-height: 60px;
+
+        .game-icon {
+          width: 42px;
+          height: 42px;
+          border-radius: 10px;
         }
-        .letter-card {
-          padding: 25px;
-          height: 65vh;
+
+        .icon-wrapper {
+          margin-bottom: 22vh; /* tambah jarak biar ga numpuk */
         }
-        .letter-title {
-          font-size: 2.2rem;
+
+        /* Kurangi jumlah kolom biar ga sempit */
+        .icon-track:nth-child(n + 5) {
+          display: none;
         }
-        .letter-text {
-          font-size: 1.1rem;
+
+        /* Atur ulang posisi biar lebih rapi */
+        .icon-track:nth-child(1) {
+          left: 5%;
         }
-        .final-message {
-          font-size: 3rem;
+        .icon-track:nth-child(2) {
+          left: 30%;
         }
-        .final-subtext {
-          font-size: 1.2rem;
+        .icon-track:nth-child(3) {
+          right: 30%;
+        }
+        .icon-track:nth-child(4) {
+          right: 5%;
         }
       }
     </style>
   </head>
   <body>
-
     <audio id="bg-music" loop>
       <source src="assets/bg.mp3" type="audio/mpeg" />
     </audio>
@@ -414,434 +422,194 @@
       <!-- Animasi Background Icons (Gambar .jpg bisa diubah src nya) -->
       <div class="icon-track track-up" style="left: 4%">
         <div class="icon-wrapper">
-          <img
-            src="assets/icon1.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon1.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon2.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon2.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon3.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon3.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon4.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon4.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon5.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon5.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon6.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon6.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon7.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon7.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon8.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon8.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon9.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon9.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon10.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon10.jpg" alt="icon" class="game-icon" />
         </div>
       </div>
       <div class="icon-track track-down" style="left: 20%">
         <div class="icon-wrapper">
-          <img
-            src="assets/icon6.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon6.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon7.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon7.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon8.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon8.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon9.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon9.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon10.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon10.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon11.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon11.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon12.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon12.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon13.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon13.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon14.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon14.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon15.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon15.jpg" alt="icon" class="game-icon" />
         </div>
       </div>
       <div class="icon-track track-up" style="left: 38%">
         <div class="icon-wrapper">
-          <img
-            src="assets/icon16.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon16.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon17.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon17.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon18.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon18.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon19.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon19.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon20.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon20.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon21.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon21.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon22.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon22.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon23.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon23.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon24.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon24.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon25.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon25.jpg" alt="icon" class="game-icon" />
         </div>
       </div>
       <div class="icon-track track-down" style="right: 38%">
         <div class="icon-wrapper">
-          <img
-            src="assets/icon26.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon26.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon27.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon27.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon28.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon28.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon29.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon29.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon30.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon30.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon31.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon31.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon32.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon32.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon33.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon33.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon34.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon34.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon35.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon35.jpg" alt="icon" class="game-icon" />
         </div>
       </div>
       <div class="icon-track track-up" style="right: 20%">
         <div class="icon-wrapper">
-          <img
-            src="assets/icon36.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon36.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon37.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon37.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon38.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon38.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon39.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon39.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon40.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon40.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon41.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon41.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon42.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon42.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon43.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon43.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon44.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon44.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon45.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon45.jpg" alt="icon" class="game-icon" />
         </div>
       </div>
       <div class="icon-track track-down" style="right: 4%">
         <div class="icon-wrapper">
-          <img
-            src="assets/icon46.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon46.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon47.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon47.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon48.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon48.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon49.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon49.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon50.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon50.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon51.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon51.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon52.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon52.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon53.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon53.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon54.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon54.jpg" alt="icon" class="game-icon" />
         </div>
         <div class="icon-wrapper">
-          <img
-            src="assets/icon55.jpg"
-            alt="icon"
-            class="game-icon"
-          />
+          <img src="assets/icon55.jpg" alt="icon" class="game-icon" />
         </div>
       </div>
 
@@ -866,6 +634,27 @@
     </section>
 
     <script>
+
+      function shuffleIcons() {
+  const tracks = document.querySelectorAll(".icon-track");
+
+  tracks.forEach((track) => {
+    const wrappers = Array.from(track.querySelectorAll(".icon-wrapper"));
+
+    // Fisher-Yates shuffle (yang bener, bukan random sort abal2)
+    for (let i = wrappers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [wrappers[i], wrappers[j]] = [wrappers[j], wrappers[i]];
+    }
+
+    // Clear dan append ulang
+    track.innerHTML = "";
+    wrappers.forEach((w) => track.appendChild(w));
+  });
+}
+
+// jalankan saat halaman siap
+window.addEventListener("load", shuffleIcons);
 
       // UI Elements
       const sec1 = document.getElementById("sec1");
